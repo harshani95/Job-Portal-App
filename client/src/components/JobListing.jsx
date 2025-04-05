@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import { assets, JobCategories, JobLocations } from "../assets/assets";
 import JobCard from "./JobCard";
@@ -6,6 +6,9 @@ import JobCard from "./JobCard";
 const JobListing = () => {
   const { isSearched, searchFilter, setSearchFilter, jobs } =
     useContext(AppContext);
+
+  const [showFilter, setShowFilter] = useState(true);
+
   return (
     <div className="container flex flex-col py-8 mx-auto 2xl:px-20 lg:flex-row max-lg:space-y-8">
       <div className="w-full px-4 bg-white lg:w-1/4 ">
@@ -44,8 +47,15 @@ const JobListing = () => {
             </>
           )}
 
+        <button
+          onClick={(e) => setShowFilter((prev) => !prev)}
+          className="px-6 py-1.5 rounded border border-gray-400 lg:hidden"
+        >
+          {showFilter ? "Close" : "Filters"}
+        </button>
+
         {/* Catagery Filter */}
-        <div className="max-lg:hidden">
+        <div className={showFilter ? "" : "max-lg:hidden"}>
           <h4 className="py-4 text-lg font-medium">Search by Categories</h4>
           <ul className="space-y-4 text-gray-600">
             {JobCategories.map((category, index) => (
@@ -58,7 +68,7 @@ const JobListing = () => {
         </div>
 
         {/* Location Filter */}
-        <div className="max-lg:hidden">
+        <div className={showFilter ? "" : "max-lg:hidden"}>
           <h4 className="py-4 text-lg font-medium pt-14">Search by Location</h4>
           <ul className="space-y-4 text-gray-600">
             {JobLocations.map((location, index) => (
